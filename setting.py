@@ -9,7 +9,7 @@ class Setting(object):
 
         # 飞船的设置
         self.ship_speed = 1.5
-        self.ship_limit = 3
+        self.ship_limit = 2
 
         # 子弹设置
         self.bullet_speed = 2.0

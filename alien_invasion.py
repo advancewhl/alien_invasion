@@ -7,6 +7,7 @@ from ship import Ship
 from bullet import Bullet
 from alien import Alien
 from game_states import GameStates
+from button import Button
 
 
 class AlienInvasion(object):
@@ -33,7 +34,10 @@ class AlienInvasion(object):
         self._create_fleet()
 
         # 游戏启动后处于活跃状态
-        self.game_active = True
+        self.game_active = False
+
+        # 创建Play按钮
+        self.play_button = Button(self, "Play")
 
     def run_game(self):
         """开始游戏的主循环"""
@@ -57,6 +61,27 @@ class AlienInvasion(object):
                 self._check_keydown_event(event)
             elif event.type == pygame.KEYUP:
                 self._check_keyup_event(event)
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                self._check_play_button(mouse_pos)
+
+    def _check_play_button(self, mouse_pos):
+        """在玩家单机play按钮时开始新游戏"""
+        button_clicked = self.play_button.rect.collidepoint(mouse_pos)
+        if button_clicked and not self.game_active:
+            # 重置游戏的统计信息
+            self.states.reset_states()
+            self.game_active = True
+
+            # 清空外星人列表和子弹列表
+            self.bullets.empty()
+            self.aliens.empty()
+
+            # 创建一个新的外星舰队，并将飞船放在屏幕底部的中央
+            self._create_fleet()
+            self.ship.center_ship()
+            # 隐藏光标
+            pygame.mouse.set_visible(False)
 
     def _check_keydown_event(self, event):
         """响应按下"""
@@ -175,6 +200,7 @@ class AlienInvasion(object):
             sleep(0.5)
         else:
             self.game_active = False
+            pygame.mouse.set_visible(True)
 
     def _update_screen(self):
         """更新屏幕上的图像，并切换到新屏幕"""
@@ -182,6 +208,11 @@ class AlienInvasion(object):
         self.screen.fill(self.setting.bg_color)
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        # 如果游戏处于非活动状态，就绘制Play按钮
+        if not self.game_active:
+            self.play_button.draw_button()
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
 
