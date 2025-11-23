@@ -69,6 +69,9 @@ class AlienInvasion(object):
         """在玩家单机play按钮时开始新游戏"""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         if button_clicked and not self.game_active:
+            # 还原游戏设置
+            self.setting.initialize_dynamic_setting()
+
             # 重置游戏的统计信息
             self.states.reset_states()
             self.game_active = True
@@ -126,6 +129,7 @@ class AlienInvasion(object):
             # 删除现有的子弹并创建一个新的外星舰队
             self.bullets.empty()
             self._create_fleet()
+            self.setting.increase_speed()
 
     def _create_fleet(self):
         """创建一个外星舰队"""
@@ -197,7 +201,7 @@ class AlienInvasion(object):
             self.ship.center_ship()
 
             # 暂停
-            sleep(0.5)
+            sleep(1)
         else:
             self.game_active = False
             pygame.mouse.set_visible(True)
