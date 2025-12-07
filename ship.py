@@ -1,9 +1,13 @@
 import pygame
+from pygame.sprite import Sprite
 
 
-class Ship(object):
+class Ship(Sprite):
+    """管理飞船的类"""
+
     def __init__(self, ai_game):
         """初始化飞船并设置其初始位置"""
+        super().__init__()
         self.screen = ai_game.screen
         self.setting = ai_game.setting
         self.screen_rect = ai_game.screen.get_rect()
@@ -11,7 +15,7 @@ class Ship(object):
         # 加载飞船图像并获取取外接矩形
         self.image = pygame.image.load("images/ship.bmp").convert_alpha()
         self.image = pygame.transform.smoothscale(
-            self.image, (80, 80)
+            self.image, (40, 40)
         )  # 宽 80、高 120，可按需求修改
         self.rect = self.image.get_rect()
 

@@ -8,7 +8,7 @@ class Setting(object):
         self.bg_color = (230, 230, 230)
 
         # 飞船的设置
-        self.ship_limit = 2
+        self.ship_limit = 3
 
         # 子弹设置
         self.bullet_width = 3

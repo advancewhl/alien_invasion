@@ -78,7 +78,8 @@ class AlienInvasion(object):
             # 重置游戏的统计信息
             self.states.reset_states()
             self.sb.prep_score()
-            self.sb._prep_level()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             self.game_active = True
 
             # 清空外星人列表和子弹列表
@@ -204,8 +205,9 @@ class AlienInvasion(object):
     def _ship_hit(self):
         """响应飞船和外星人的碰撞"""
         if self.states.ships_left > 0:
-            # 将ship_left减1
+            # 将ship_left减并更新记分牌
             self.states.ships_left -= 1
+            self.sb.prep_ships()
 
             # 清空外星人列表和子弹列表
             self.bullets.empty()
