@@ -6,6 +6,7 @@ class GameStates(object):
         self.setting = ai_game.setting
         self.reset_states()
         self.high_score = 0
+        self.level = 1
 
     def reset_states(self):
         """初始化在游戏运行期间可能变化的统计信息"""

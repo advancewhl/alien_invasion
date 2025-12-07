@@ -78,6 +78,7 @@ class AlienInvasion(object):
             # 重置游戏的统计信息
             self.states.reset_states()
             self.sb.prep_score()
+            self.sb._prep_level()
             self.game_active = True
 
             # 清空外星人列表和子弹列表
@@ -134,6 +135,10 @@ class AlienInvasion(object):
             self.bullets.empty()
             self._create_fleet()
             self.setting.increase_speed()
+
+            # 提高等级
+            self.states.level += 1
+            self.sb.prep_level()
 
         if collisions:
             for aliens in collisions.values():
